@@ -4,4 +4,4 @@ The Xamarin Forms iOS implmentation is based on the iOS11Client sample and uses 
 
 ## Issues
 
-This sample is a contribution from Jason DeBoever (@jasallen) - please contact him (or mention him) if there are any issues.
+This sample is maintained by @GioviQ - please contact him (or mention him) if there are any issues.
