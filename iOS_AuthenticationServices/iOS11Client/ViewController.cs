@@ -21,12 +21,13 @@ namespace iOS11Client
             var options = new OidcClientOptions
             {
                 Authority = "https://demo.identityserver.io",
-                ClientId = "native.code",
+                ClientId = "interactive.public",
                 Scope = "openid profile email api offline_access",
 
                 RedirectUri = "SFAuthenticationSessionExample://callback",
                 PostLogoutRedirectUri = "SFAuthenticationSessionExample://callback",
 
+                IdentityTokenValidator = new JwtHandlerIdentityTokenValidator(),
                 Browser = new ASWebAuthenticationSessionBrowser()
             };
 

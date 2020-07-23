@@ -4,6 +4,7 @@ using IdentityModel.OidcClient.Browser;
 using AuthenticationServices;
 using System;
 using UIKit;
+using System.Threading;
 
 namespace iOS11Client
 {
@@ -11,7 +12,7 @@ namespace iOS11Client
     {
         ASWebAuthenticationSession _af;
         
-        public Task<BrowserResult> InvokeAsync(BrowserOptions options)
+        public Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
         {
             var wait = new TaskCompletionSource<BrowserResult>();
 

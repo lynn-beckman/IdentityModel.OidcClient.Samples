@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using IdentityModel.OidcClient.Browser;
 using SafariServices;
+using System.Threading;
 
 namespace iOS11Client
 {
@@ -9,7 +10,7 @@ namespace iOS11Client
     {
         SFAuthenticationSession _sf;
 
-        public Task<BrowserResult> InvokeAsync(BrowserOptions options)
+        public Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
         {
             var wait = new TaskCompletionSource<BrowserResult>();
 
