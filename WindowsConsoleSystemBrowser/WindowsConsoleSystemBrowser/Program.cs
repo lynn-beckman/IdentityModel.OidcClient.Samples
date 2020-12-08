@@ -66,7 +66,7 @@ namespace WindowsConsoleSystemBrowser
             var options = new OidcClientOptions
             {
                 Authority = "https://demo.identityserver.io",
-                ClientId = "native.code",
+                ClientId = "interactive.public",
                 Scope = "openid profile api",
                 RedirectUri = redirectUri,
                 Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode,
