@@ -39,9 +39,10 @@ namespace ConsoleSystemBrowser
             var options = new OidcClientOptions
             {
                 Authority = "https://demo.identityserver.io",
-                ClientId = "native.hybrid",
+                ClientId = "interactive.public",
                 Scope = "openid profile api",
-                RedirectUri = redirectUri
+                RedirectUri = redirectUri,
+                Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode
             };
                 
             var client = new OidcClient(options);
