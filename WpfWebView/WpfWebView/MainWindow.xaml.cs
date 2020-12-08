@@ -34,7 +34,7 @@ namespace WpfWebView
             var options = new OidcClientOptions()
             {
                 Authority = "https://demo.identityserver.io/",
-                ClientId = "native.code",
+                ClientId = "interactive.public",
                 Scope = "openid profile email",
                 RedirectUri = "http://127.0.0.1/sample-wpf-app",
                 Browser = new WpfEmbeddedBrowser()
