@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
 using Microsoft.IdentityModel.Logging;
@@ -112,7 +113,7 @@ namespace iOS11Client
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                //OutputText.Text = JArray.Parse(content).ToString();
+                OutputText.Text = content;
             }
         }
 
