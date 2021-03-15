@@ -22,7 +22,11 @@ namespace WpfWebView2
                 ClientId = "interactive.public",
                 Scope = "openid profile email",
                 RedirectUri = "http://127.0.0.1/sample-wpf-app",
-                Browser = new WpfEmbeddedBrowser()
+                Browser = new WpfEmbeddedBrowser(),
+                Policy = new Policy
+                {
+                    RequireIdentityTokenSignature = false
+                }
             };
 
             var _oidcClient = new OidcClient(options);
