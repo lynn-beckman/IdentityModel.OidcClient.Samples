@@ -26,7 +26,7 @@ namespace XamarinFormsClient.iOS
             {
                 _asWebAuthenticationSession = new ASWebAuthenticationSession(
                     new NSUrl(options.StartUrl),
-                    options.EndUrl,
+                    new NSUrl(options.EndUrl).Scheme,
                     (callbackUrl, error) =>
                     {
                         tcs.SetResult(CreateBrowserResult(callbackUrl, error));
