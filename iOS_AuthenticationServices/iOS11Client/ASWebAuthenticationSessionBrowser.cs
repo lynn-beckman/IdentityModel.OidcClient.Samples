@@ -18,7 +18,7 @@ namespace iOS11Client
 
             _af = new ASWebAuthenticationSession(
                 new NSUrl(options.StartUrl),
-                options.EndUrl,
+                new NSUrl(options.EndUrl).Scheme,
                 (callbackUrl, error) =>
                 {
                     if (error != null)
