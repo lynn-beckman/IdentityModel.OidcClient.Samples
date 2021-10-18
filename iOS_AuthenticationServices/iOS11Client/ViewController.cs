@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
 using Microsoft.IdentityModel.Logging;
@@ -20,14 +19,18 @@ namespace iOS11Client
 
             var options = new OidcClientOptions
             {
-                Authority = "https://demo.identityserver.io",
+                Authority = "https://demo.duendesoftware.com",
                 ClientId = "interactive.public",
                 Scope = "openid profile email api offline_access",
 
                 RedirectUri = "SFAuthenticationSessionExample://callback",
                 PostLogoutRedirectUri = "SFAuthenticationSessionExample://callback",
 
-                IdentityTokenValidator = new JwtHandlerIdentityTokenValidator(),
+                Policy =
+                {
+                    RequireIdentityTokenSignature = false,
+                },
+
                 Browser = new ASWebAuthenticationSessionBrowser()
             };
 
@@ -105,7 +108,7 @@ namespace iOS11Client
                 var client = new HttpClient();
                 client.SetBearerToken(_user.AccessToken);
 
-                var response = await client.GetAsync("https://demo.identityserver.io/api/test");
+                var response = await client.GetAsync("https://demo.duendesoftware.com/api/test");
                 if (!response.IsSuccessStatusCode)
                 {
                     OutputText.Text = response.ReasonPhrase;
