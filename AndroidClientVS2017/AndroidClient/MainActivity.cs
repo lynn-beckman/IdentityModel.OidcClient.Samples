@@ -38,9 +38,10 @@ namespace AndroidClient
             _options = new OidcClientOptions
             {
                 Authority = _authority,
-                ClientId = "native.hybrid",
+                ClientId = "interactive.public",
                 Scope = "openid profile api offline_access",
                 RedirectUri = "io.identitymodel.native://callback",
+                Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode,
                 ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect,
                 Browser = new ChromeCustomTabsBrowser(this)
             };
