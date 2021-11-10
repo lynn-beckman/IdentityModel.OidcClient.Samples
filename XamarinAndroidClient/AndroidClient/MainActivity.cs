@@ -5,16 +5,27 @@ using System;
 using IdentityModel.OidcClient;
 using System.Net.Http;
 using IdentityModel.Client;
+using System.Security.Claims;
 
 namespace AndroidClient
 {
+    public class State
+    {
+        public string IdToken { get; set; }
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+        public ClaimsPrincipal User { get; set; }
+        public bool IsError => Error != null;
+        public string Error { get; set; }
+    }
+
     [Activity(Label = "AndroidClient", MainLauncher = true)]
     public class MainActivity : Activity
     {
         private TextView _output;
-        private static LoginResult _result;
+        private static State _state;
         private OidcClientOptions _options;
-        private string _authority = "https://demo.identityserver.io";
+        private string _authority = "https://demo.duendesoftware.com";
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -41,8 +52,6 @@ namespace AndroidClient
                 ClientId = "interactive.public",
                 Scope = "openid profile api offline_access",
                 RedirectUri = "io.identitymodel.native://callback",
-                Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode,
-                ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect,
                 Browser = new ChromeCustomTabsBrowser(this)
             };
         }
@@ -52,7 +61,15 @@ namespace AndroidClient
             try
             {
                 var oidcClient = new OidcClient(_options);
-                _result = await oidcClient.LoginAsync();
+                var result = await oidcClient.LoginAsync();
+                _state = new State 
+                { 
+                    IdToken = result.IdentityToken,
+                    AccessToken = result.AccessToken,
+                    RefreshToken = result.RefreshToken,
+                    User = result.User,
+                    Error = result.Error,
+                };
 
                 // used to redisplay this app if it's hidden by browser
                 StartActivity(GetType());
@@ -66,33 +83,33 @@ namespace AndroidClient
 
         private void ShowResults()
         {
-            if (_result != null)
+            if (_state != null)
             {
-                if (_result.IsError)
+                if (_state.IsError)
                 {
-                    Log("Error:" + _result.Error, true);
+                    Log("Error:" + _state.Error, true);
                 }
                 else
                 {
                     Log("Claims:", true);
-                    foreach (var claim in _result.User.Claims)
+                    foreach (var claim in _state.User.Claims)
                     {
                         Log($"   {claim.Type}:{claim.Value}");
                     }
-                    Log("Access Token: " + _result.AccessToken);
-                    Log("Refresh Token: " + _result.RefreshToken);
+                    Log("Access Token: " + _state.AccessToken);
+                    Log("Refresh Token: " + _state.RefreshToken);
                 }
             }
         }
 
         private async void _apiButton_Click(object sender, EventArgs e)
         {
-            if (_result?.IsError == false)
+            if (_state?.IsError == false)
             {
-                var apiUrl = "https://demo.identityserver.io/api/test";
+                var apiUrl = "https://demo.duendesoftware.com/api/test";
 
                 var client = new HttpClient();
-                client.SetBearerToken(_result.AccessToken);
+                client.SetBearerToken(_state.AccessToken);
 
                 try
                 {
@@ -123,10 +140,15 @@ namespace AndroidClient
 
         private async void _refreshButton_Click(object sender, EventArgs e)
         {
-            if (_result?.RefreshToken != null)
+            if (_state?.RefreshToken != null)
             {
-                var client = new TokenClient(_authority + "/connect/token", _options.ClientId);
-                var result = await client.RequestRefreshTokenAsync(_result.RefreshToken);
+                var client = new HttpClient();
+                var result = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
+                {
+                    Address = _authority + "/connect/token",
+                    ClientId = _options.ClientId,
+                    RefreshToken = _state.RefreshToken
+                });
 
                 Log("Refresh Token Result", clear: true);
                 if (result.IsError)
@@ -135,11 +157,11 @@ namespace AndroidClient
                     return;
                 }
 
-                _result.RefreshToken = result.RefreshToken;
-                _result.AccessToken = result.AccessToken;
+                _state.RefreshToken = result.RefreshToken;
+                _state.AccessToken = result.AccessToken;
 
-                Log("Access Token: " + _result.AccessToken);
-                Log("Refresh Token: " + _result.RefreshToken);
+                Log("Access Token: " + _state.AccessToken);
+                Log("Refresh Token: " + _state.RefreshToken);
             }
             else
             {

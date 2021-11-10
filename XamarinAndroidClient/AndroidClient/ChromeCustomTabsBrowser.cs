@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -26,7 +27,7 @@ namespace AndroidClient
             _manager = new CustomTabsActivityManager(_context);
         }
 
-        public Task<BrowserResult> InvokeAsync(BrowserOptions options)
+        public Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var task = new TaskCompletionSource<BrowserResult>();
 
