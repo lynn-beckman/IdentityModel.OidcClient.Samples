@@ -10,8 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="3.6.1" />
-    <PackageReference Include="IdentityModel.OidcClient" Version="2.6.0" />
+    <PackageReference Include="IdentityModel.OidcClient" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
