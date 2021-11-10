@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleClientWithBrowser
@@ -41,7 +42,7 @@ namespace ConsoleClientWithBrowser
             return port;
         }
 
-        public async Task<BrowserResult> InvokeAsync(BrowserOptions options)
+        public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var listener = new LoopbackHttpListener(Port, _path))
             {
@@ -138,7 +139,7 @@ namespace ConsoleClientWithBrowser
             {
                 if (ctx.Request.Method == "GET")
                 {
-                    SetResult(ctx.Request.QueryString.Value, ctx);
+                    await SetResultAsync(ctx.Request.QueryString.Value, ctx);
                 }
                 else if (ctx.Request.Method == "POST")
                 {
@@ -151,7 +152,7 @@ namespace ConsoleClientWithBrowser
                         using (var sr = new StreamReader(ctx.Request.Body, Encoding.UTF8))
                         {
                             var body = await sr.ReadToEndAsync();
-                            SetResult(body, ctx);
+                            await SetResultAsync(body, ctx);
                         }
                     }
                 }
@@ -162,23 +163,25 @@ namespace ConsoleClientWithBrowser
             });
         }
 
-        private void SetResult(string value, HttpContext ctx)
+        private async Task SetResultAsync(string value, HttpContext ctx)
         {
             try
             {
                 ctx.Response.StatusCode = 200;
                 ctx.Response.ContentType = "text/html";
-                ctx.Response.WriteAsync("<h1>You can now return to the application.</h1>");
-                ctx.Response.Body.Flush();
+                await ctx.Response.WriteAsync("<h1>You can now return to the application.</h1>");
+                await ctx.Response.Body.FlushAsync();
 
                 _source.TrySetResult(value);
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex.ToString());
+
                 ctx.Response.StatusCode = 400;
                 ctx.Response.ContentType = "text/html";
-                ctx.Response.WriteAsync("<h1>Invalid request.</h1>");
-                ctx.Response.Body.Flush();
+                await ctx.Response.WriteAsync("<h1>Invalid request.</h1>");
+                await ctx.Response.Body.FlushAsync();
             }
         }
 

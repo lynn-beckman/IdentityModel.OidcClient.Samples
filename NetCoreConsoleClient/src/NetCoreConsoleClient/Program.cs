@@ -1,4 +1,5 @@
-﻿using IdentityModel.OidcClient;
+﻿using IdentityModel.Client;
+using IdentityModel.OidcClient;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using System;
@@ -44,14 +45,12 @@ namespace ConsoleClientWithBrowser
                 Scope = "openid profile api",
                 FilterClaims = false,
                 Browser = browser,
-                Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode,
-                ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect
             };
 
             var serilog = new LoggerConfiguration()
                 .MinimumLevel.Error()
                 .Enrich.FromLogContext()
-                .WriteTo.LiterateConsole(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")
                 .CreateLogger();
 
             options.LoggerFactory.AddSerilog(serilog);
