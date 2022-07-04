@@ -31,8 +31,13 @@
             <Button 
                 x:Name="CounterBtn"
                 Text="Login"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Clicked="OnLoginClicked"
+                HorizontalOptions="Center" />
+            
+            <Button 
+                x:Name="ApiBtn"
+                Text="Call API"
+                Clicked="OnApiClicked"
                 HorizontalOptions="Center" />
             
             <Editor x:Name="editor"

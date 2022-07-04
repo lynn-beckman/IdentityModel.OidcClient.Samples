@@ -1,16 +1,15 @@
 using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
-using ModelIO;
 
 namespace MauiApp2;
 
 public class MauiAuthenticationBrowser : IdentityModel.OidcClient.Browser.IBrowser
 {
-    public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
     {
         try
         {
-            WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(
+            var result = await WebAuthenticator.Default.AuthenticateAsync(
                 new Uri(options.StartUrl),
                 new Uri(options.EndUrl));
 
@@ -23,7 +22,7 @@ public class MauiAuthenticationBrowser : IdentityModel.OidcClient.Browser.IBrows
                 ResultType = BrowserResultType.Success
             };
         }
-        catch (TaskCanceledException e)
+        catch (TaskCanceledException)
         {
             return new BrowserResult
             {

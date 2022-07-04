@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
 
@@ -7,6 +9,7 @@ namespace MauiApp2;
 public partial class MainPage
 {
     private readonly OidcClient _client;
+    private string _currentAccessToken;
 
     public MainPage(OidcClient client)
     {
@@ -14,7 +17,7 @@ public partial class MainPage
         _client = client;
     }
 
-    private async void OnCounterClicked(object sender, EventArgs e)
+    private async void OnLoginClicked(object sender, EventArgs e)
     {
         var result = await _client.LoginAsync();
 
@@ -23,6 +26,8 @@ public partial class MainPage
             editor.Text = result.Error;
             return;
         }
+
+        _currentAccessToken = result.AccessToken;
 
         var sb = new StringBuilder(128);
 
@@ -44,5 +49,26 @@ public partial class MainPage
         }
 
         editor.Text = sb.ToString();
+    }
+
+    private async void OnApiClicked(object sender, EventArgs e)
+    {
+        if (_currentAccessToken != null)
+        {
+            var client = new HttpClient();
+            client.SetBearerToken(_currentAccessToken);
+
+            var response = await client.GetAsync("https://demo.duendesoftware.com/api/test");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var doc = JsonDocument.Parse(content).RootElement;
+                editor.Text = JsonSerializer.Serialize(doc, new JsonSerializerOptions { WriteIndented = true });
+            }
+            else
+            {
+                editor.Text = response.ReasonPhrase;
+            }
+        }
     }
 }
