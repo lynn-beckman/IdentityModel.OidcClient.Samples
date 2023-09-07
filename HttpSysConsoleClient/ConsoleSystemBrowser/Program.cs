@@ -38,9 +38,9 @@ namespace ConsoleSystemBrowser
 
             var options = new OidcClientOptions
             {
-                Authority = "https://demo.duendesoftware.com",
-                ClientId = "interactive.public",
-                Scope = "openid profile api",
+                Authority = "http://localhost:9001/sso/auth/realms/eco",
+                ClientId = "eco-gen-ii",
+                Scope = "openid profile email",
                 RedirectUri = redirectUri,
                 Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode
             };
@@ -63,7 +63,7 @@ namespace ConsoleSystemBrowser
 
             // sends an HTTP response to the browser.
             var response = context.Response;
-            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://demo.duendesoftware.com'></head><body>Please return to the app.</body></html>");
+            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=http://localhost:9001/sso/auth'></head><body>Please return to the app.</body></html>");
             var buffer = Encoding.UTF8.GetBytes(responseString);
             response.ContentLength64 = buffer.Length;
             var responseOutput = response.OutputStream;
@@ -72,7 +72,7 @@ namespace ConsoleSystemBrowser
 
             Console.WriteLine($"Form Data: {formData}");
             var result = await client.ProcessResponseAsync(formData, state);
-
+            
             if (result.IsError)
             {
                 Console.WriteLine("\n\nError:\n{0}", result.Error);

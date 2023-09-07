@@ -18,8 +18,8 @@ namespace WpfWebView2
         {
             var options = new OidcClientOptions()
             {
-                Authority = "https://demo.identityserver.io/",
-                ClientId = "interactive.public",
+                Authority = "http://localhost:9001/sso/auth/realms/eco",
+                ClientId = "eco-gen-ii",
                 Scope = "openid profile email",
                 RedirectUri = "http://127.0.0.1/sample-wpf-app",
                 Browser = new WpfEmbeddedBrowser(),

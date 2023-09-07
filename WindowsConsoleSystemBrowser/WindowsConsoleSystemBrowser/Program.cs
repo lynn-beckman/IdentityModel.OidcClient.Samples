@@ -65,9 +65,9 @@ namespace WindowsConsoleSystemBrowser
 
             var options = new OidcClientOptions
             {
-                Authority = "https://demo.duendesoftware.com",
-                ClientId = "interactive.public",
-                Scope = "openid profile api",
+                Authority = "http://localhost:9001/sso/auth/realms/eco",
+                ClientId = "eco-gen-ii",
+                Scope = "openid profile email",
                 RedirectUri = redirectUri,
             };
 

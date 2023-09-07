@@ -16,9 +16,9 @@ namespace WinFormsWebView2
 
             var options = new OidcClientOptions
             {
-                Authority = "https://demo.identityserver.io",
-                ClientId = "interactive.public",
-                Scope = "openid email api offline_access",
+                Authority = "http://localhost:9001/sso/auth/realms/eco",
+                ClientId = "eco-gen-ii",
+                Scope = "openid email profile",
                 RedirectUri = "http://localhost/winforms.client",
                 Browser = new WinFormsWebView()
             };
@@ -75,6 +75,11 @@ namespace WinFormsWebView2
 
                 Output.Text = sb.ToString();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

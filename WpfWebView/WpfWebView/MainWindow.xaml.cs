@@ -1,18 +1,6 @@
 ﻿using IdentityModel.OidcClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfWebView
 {
@@ -33,8 +21,8 @@ namespace WpfWebView
         {
             var options = new OidcClientOptions()
             {
-                Authority = "https://demo.identityserver.io/",
-                ClientId = "interactive.public",
+                Authority = "http://localhost:9001/sso/auth/realms/eco",
+                ClientId = "eco-gen-ii",
                 Scope = "openid profile email",
                 RedirectUri = "http://127.0.0.1/sample-wpf-app",
                 Browser = new WpfEmbeddedBrowser()

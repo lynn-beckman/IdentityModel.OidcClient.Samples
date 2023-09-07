@@ -36,22 +36,22 @@
             this.Output.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Output.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Output.Location = new System.Drawing.Point(0, 0);
-            this.Output.Margin = new System.Windows.Forms.Padding(8);
+            this.Output.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
             this.Output.Multiline = true;
             this.Output.Name = "Output";
-            this.Output.Size = new System.Drawing.Size(523, 417);
+            this.Output.Size = new System.Drawing.Size(784, 642);
             this.Output.TabIndex = 1;
             this.Output.Text = "Signing in ...";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(523, 417);
+            this.ClientSize = new System.Drawing.Size(784, 642);
             this.Controls.Add(this.Output);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "WinForms WebView2 Sample";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

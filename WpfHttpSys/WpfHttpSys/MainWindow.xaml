@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfHttpSys.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Button Content="Refresh Token" Click="Btn_Click"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center">
+        </Button>
+        <TextBox x:Name="txbMessage"
+                   Text="Signing In..."
+                   Grid.Row="1" Grid.Column="0"
+                   VerticalScrollBarVisibility="Visible"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   FontSize="14"
+                   FontFamily="Segoe UI Light, San Serif"
+                   TextWrapping="Wrap"/>
+    </Grid>
+</Window>
